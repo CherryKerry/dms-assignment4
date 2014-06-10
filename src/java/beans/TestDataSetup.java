@@ -21,6 +21,7 @@ public class TestDataSetup {
     
     @PostConstruct
     public void setupTestUserData() {
+        /*
         try {            
             em.persist(new User("Patrick", "Mercy"));
             em.persist(new User("Haylee", "Ramsey"));
@@ -29,6 +30,7 @@ public class TestDataSetup {
         } catch (EntityExistsException ex) {
             System.out.println("Entities already added");
         }
+                */
     }
     
 }
