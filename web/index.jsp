@@ -19,7 +19,7 @@
             int status = 0;
             if (temp != null)
                 status = Integer.parseInt(temp);
-            String url = "/Switch2wellWEB/webresources/users";
+            String url = "/Assignment4Server/users";
             //out.print("<p>Output is ");
             switch(status) {
                 case 1 :    //out.print("1");
@@ -57,26 +57,26 @@
             }
             out.print("</p>");
         %>
-        <form action="/Switch2wellWEB/index.jsp">
+        <form action="/Assignment4Server/index.jsp">
             <h3>View All Users</h3>
             <input type="hidden" name="status" value="1">
             <input type="submit" value="View Users">
         </form>
-        <form action="/Switch2wellWEB/index.jsp">
+        <form action="/Assignment4Server/index.jsp">
             <h3>Add Users</h3>
             First Name: <input type="text" name="firstname"><br />
             Last Name: <input type="text" name="lastname"><br />
             <input type="hidden" name="status" value="2">
             <input type="submit" value="Add User">
         </form>
-        <form action="/Switch2wellWEB/index.jsp">
+        <form action="/Assignment4Server/index.jsp">
             <h3>Get Users Points</h3>
             First Name: <input type="text" name="firstname"><br />
             Last Name: <input type="text" name="lastname"><br />
             <input type="hidden" name="status" value="3">
             <input type="submit" value="Get User Points"><br />
         </form>
-        <form action="/Switch2wellWEB/index.jsp">
+        <form action="/Assignment4Server/index.jsp">
             <h3>Add Users Points</h3>
             First Name: <input type="text" name="firstname"><br />
             Last Name: <input type="text" name="lastname"><br />
