@@ -6,10 +6,13 @@ import javax.persistence.Id;
 
 /**
  * A class to represent the users data
+ * 
+ * persistence unit name Assignment4ServerPU
+ * 
  * @author Kerry Powell
  */
 @Entity
-public class User implements Serializable{
+public class UserEntity implements Serializable{
     
     @Id
     private String name;
@@ -17,13 +20,13 @@ public class User implements Serializable{
     private String lastName;
     private long points;
 
-    public User() {
+    public UserEntity() {
         firstName = "";
         lastName = "";
         points = 0;
     }
     
-    public User(String firstName, String lastName) {
+    public UserEntity(String firstName, String lastName) {
         if (lastName == null || firstName == null)
             throw new NullPointerException("First and/or Last name cannot be null");
         this.firstName = firstName;
@@ -67,11 +70,11 @@ public class User implements Serializable{
         return firstName + "\n" + lastName + "\n" + points;
     }
     
-    public static User createUserFromString(String string) {
+    public static UserEntity createUserFromString(String string) {
         String[] args = string.split("\n");
-        User user = null;
+        UserEntity user = null;
         if (args.length == 3) {
-            user = new User(args[0], args[1]);
+            user = new UserEntity(args[0], args[1]);
             try {
                 user.setPoints(Long.parseLong(args[2]));
             } catch (Exception ex) {}

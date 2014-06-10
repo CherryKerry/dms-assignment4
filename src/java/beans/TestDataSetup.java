@@ -5,7 +5,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import entities.User;
+import entities.UserEntity;
 import javax.persistence.EntityExistsException;
 
 /**
@@ -21,16 +21,14 @@ public class TestDataSetup {
     
     @PostConstruct
     public void setupTestUserData() {
-        /*
         try {            
-            em.persist(new User("Patrick", "Mercy"));
-            em.persist(new User("Haylee", "Ramsey"));
-            em.persist(new User("Dana", "Franklyn"));
-            em.persist(new User("Geoff", "Harrison"));
+            em.persist(new UserEntity("Patrick", "Mercy"));
+            em.persist(new UserEntity("Haylee", "Ramsey"));
+            em.persist(new UserEntity("Dana", "Franklyn"));
+            em.persist(new UserEntity("Geoff", "Harrison"));
         } catch (EntityExistsException ex) {
             System.out.println("Entities already added");
         }
-                */
     }
     
 }

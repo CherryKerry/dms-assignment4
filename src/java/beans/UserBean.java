@@ -1,6 +1,6 @@
 package beans;
 
-import entities.User;
+import entities.UserEntity;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -26,11 +26,11 @@ public class UserBean {
     @EJB private UserDao dao;
 
     public boolean create(String firstName, String lastName) {
-        sendMessage(new User(firstName, lastName));
+        sendMessage(new UserEntity(firstName, lastName));
         return true;
     }
     
-    private void sendMessage(User user) {
+    private void sendMessage(UserEntity user) {
         
         try (JMSContext context = connectionFactory.createContext();) {
             System.out.println("Sending message: " + user); 
@@ -38,13 +38,13 @@ public class UserBean {
         }
     }
         
-    public User[] getUsers() {
-        User[] users = dao.getUsers().toArray(new User[0]);
+    public UserEntity[] getUsers() {
+        UserEntity[] users = dao.getUsers().toArray(new UserEntity[0]);
         return users;
     }
 
-    public User getUser(String firstName, String lastName) {
-        for (User user: dao.getUsers()) {
+    public UserEntity getUser(String firstName, String lastName) {
+        for (UserEntity user: dao.getUsers()) {
             if (firstName.equals(user.getFirstName()) && lastName.equals(user.getLastName())) {
                 return user;
             }
@@ -52,8 +52,8 @@ public class UserBean {
         return null;
     }
     
-    public User updateUserPoints(String firstName, String lastName, long points) {
-        for (User user: dao.getUsers()) {
+    public UserEntity updateUserPoints(String firstName, String lastName, long points) {
+        for (UserEntity user: dao.getUsers()) {
             if (firstName.equals(user.getFirstName()) && lastName.equals(user.getLastName())) {
                 user.setPoints(points);
                 sendMessage(user);

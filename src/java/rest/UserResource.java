@@ -1,7 +1,7 @@
 package rest;
 
 import beans.UserBean;
-import entities.User;
+import entities.UserEntity;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.ws.rs.Path;
@@ -26,7 +26,7 @@ public class UserResource
        StringBuilder buffer = new StringBuilder();
         if (users == null)
             return "There are no users";
-        for (User user : users.getUsers()) {
+        for (UserEntity user : users.getUsers()) {
             buffer.append(user.getFirstName() + " ");
             buffer.append(user.getLastName() + " has ");
             buffer.append(user.getPoints() + " points\n");
@@ -38,7 +38,7 @@ public class UserResource
     @GET
     @Produces("text/plain")
     public String getUser(@PathParam("firstName") String firstName, @PathParam("lastName") String lastName) { 
-        User user = users.getUser(firstName, lastName);
+        UserEntity user = users.getUser(firstName, lastName);
         if (user != null)
             return firstName + " " + lastName + " has " + user.getPoints() + 
                     " points";
@@ -50,7 +50,7 @@ public class UserResource
     @GET
     @Produces("text/plain")
     public long getUserPoints(@PathParam("firstName") String firstName, @PathParam("lastName") String lastName) { 
-        User user = users.getUser(firstName, lastName);
+        UserEntity user = users.getUser(firstName, lastName);
         if (user != null)
             return user.getPoints();
         else
@@ -62,7 +62,7 @@ public class UserResource
     @Produces("text/plain")
     public String putUserPoints(@PathParam("firstName") String firstName, @PathParam("lastName") String lastName, @PathParam("value") long points) {  
         
-        User user = users.updateUserPoints(firstName, lastName, points);
+        UserEntity user = users.updateUserPoints(firstName, lastName, points);
         if (user != null)
             return firstName + " " + lastName + " has " + user.getPoints() + 
                     " points";

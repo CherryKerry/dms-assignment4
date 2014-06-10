@@ -11,7 +11,7 @@ import javax.jms.Topic;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import entities.User;
+import entities.UserEntity;
 
 /**
  *
@@ -31,27 +31,27 @@ public class UserDao implements MessageListener {
     
     @Override
     public void onMessage(Message message) {
-        User user = (User)message;
+        UserEntity user = (UserEntity)message;
         try {
             //Try to add the user
             em.persist(user);
         } catch (EntityExistsException e) {
             //Try to update the users points
             em.getTransaction().begin();
-            User dbuser = (User) em.find(User.class, user.getName());
+            UserEntity dbuser = (UserEntity) em.find(UserEntity.class, user.getName());
             dbuser.setPoints(user.getPoints());
             em.getTransaction().commit();     
         }
     }
     
-    public void sendMessageToTopic(User user) {
+    public void sendMessageToTopic(UserEntity user) {
         try (JMSContext context = connectionFactory.createContext();) {
             System.out.println("Sending message: " + user); 
             context.createProducer().send(topic, user);
         }
     }
     
-    public List<User> getUsers() {
-        return em.createQuery("select u from User u", User.class).getResultList();
+    public List<UserEntity> getUsers() {
+        return em.createQuery("select u from User u", UserEntity.class).getResultList();
     }
 }
