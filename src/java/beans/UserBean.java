@@ -95,4 +95,19 @@ public class UserBean {
         }
         return null;
     }
+
+    /**
+     * Add a new entity to the database
+     * @param firstName the first name of the entity
+     * @param lastName the last name
+     * @return the new entity
+     */
+    public UserEntity addUser(String firstName, String lastName) {
+        UserEntity entity = new UserEntity(firstName, lastName);
+        if (database.contains(entity)) {
+            return null;
+        }
+        sendMessage(entity);
+        return entity;
+    }
 }

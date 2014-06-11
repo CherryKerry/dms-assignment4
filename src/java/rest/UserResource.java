@@ -61,6 +61,25 @@ public class UserResource
     }
     
     /**
+     * Get the details of a selected user
+     * 
+     * @param firstName the name of the user
+     * @param lastName the last name of the user
+     * @return the users details of 'No such user' if not found
+     */
+    @Path("{firstName}/{lastName}")
+    @POST
+    @Produces("text/plain")
+    public String addUser(@PathParam("firstName") String firstName, @PathParam("lastName") String lastName) { 
+        UserEntity user = users.addUser(firstName, lastName);
+        if (user != null)
+            return firstName + " " + lastName + " has " + user.getPoints() + 
+                    " points";
+        else
+            return "No such user";
+    }
+    
+    /**
      * Get the points of a user
      * 
      * @param firstName the name of the user 
