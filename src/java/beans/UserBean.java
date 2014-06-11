@@ -28,18 +28,6 @@ public class UserBean {
     private UserDatabase database;
     
     /**
-     * Create a new user and add them to the database
-     * 
-     * @param firstName the new users first name
-     * @param lastName the new users last name
-     * @return true if the user has been added
-     */
-    public boolean create(String firstName, String lastName) {
-        sendMessage(new UserEntity(firstName, lastName));
-        return true;
-    }
-    
-    /**
      * Send a new user to the user DAO to be saved
      * @param user the user to add/update
      */
