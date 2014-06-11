@@ -1,20 +1,13 @@
 package entities;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
 /**
- * A class to represent the users data
- * 
- * persistence unit name Assignment4ServerPU
+ * A class to represent the users data along with convenience methods for 
+ * formatting and comparisons
  * 
  * @author Kerry Powell
  */
-@Entity
-public class UserEntity implements Serializable{
+public class UserEntity{
     
-    @Id
     private String name;
     private String firstName;
     private String lastName;
@@ -29,9 +22,8 @@ public class UserEntity implements Serializable{
     public UserEntity(String firstName, String lastName) {
         if (lastName == null || firstName == null)
             throw new NullPointerException("First and/or Last name cannot be null");
-        this.firstName = firstName;
-        this.lastName = lastName;
-        name = firstName + " " + lastName;
+        setFirstName(firstName);
+        setLastName(lastName);
         points = 0;
     }
 
@@ -40,6 +32,7 @@ public class UserEntity implements Serializable{
     }
 
     public void setFirstName(String firstName) {
+        firstName = firstName.toLowerCase();
         this.firstName = firstName;
         name = firstName + " " + lastName;
     }
@@ -53,6 +46,7 @@ public class UserEntity implements Serializable{
     }
 
     public void setLastName(String lastName) {
+        lastName = lastName.toLowerCase();
         this.lastName = lastName;
         name = firstName + " " + lastName;
     }
@@ -65,21 +59,14 @@ public class UserEntity implements Serializable{
         this.points = points;
     }
     
+    public boolean equals(UserEntity user) {
+        String myName = name.toLowerCase();
+        String otherName = user.getName().toLowerCase();
+        return myName.equals(otherName);
+    }
+    
     @Override
     public String toString() {
         return firstName + "\n" + lastName + "\n" + points;
     }
-    
-    public static UserEntity createUserFromString(String string) {
-        String[] args = string.split("\n");
-        UserEntity user = null;
-        if (args.length == 3) {
-            user = new UserEntity(args[0], args[1]);
-            try {
-                user.setPoints(Long.parseLong(args[2]));
-            } catch (Exception ex) {}
-        }
-        return user;
-    }
-    
 }

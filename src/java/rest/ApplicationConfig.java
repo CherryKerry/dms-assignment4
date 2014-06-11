@@ -4,8 +4,8 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- *
- * @author aensor
+ * Taken from the Restful example from class
+ * @author Andrew Ensor
  */
 @javax.ws.rs.ApplicationPath("webresources")
 public class ApplicationConfig extends Application {

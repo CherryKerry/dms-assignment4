@@ -1,57 +1,58 @@
 package beans;
 
-import java.util.List;
-import javax.annotation.Resource;
 import javax.ejb.MessageDriven;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSContext;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import javax.jms.Topic;
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import entities.UserEntity;
+import javax.ejb.EJB;
+import javax.jms.JMSException;
+import javax.jms.TextMessage;
 
 /**
- *
+ * Data Access Object for accessing the stored data in the sql database
  * @author Kerry Powell
  */
 @MessageDriven(mappedName="jms/myQueue")
 public class UserDao implements MessageListener {
-    @PersistenceContext
-    EntityManager em;
-    @Resource(lookup = "java:comp/DefaultJMSConnectionFactory")
-    private static ConnectionFactory connectionFactory;
-    @Resource(lookup = "jms/MyTopic")
-    private static Topic topic;
-    
-    public UserDao() {
-    }
+
+    @EJB private UserDatabase database;
     
     @Override
     public void onMessage(Message message) {
-        UserEntity user = (UserEntity)message;
+        if (message instanceof TextMessage) {
+            UserEntity user = getUser(message);
+            if (database.contains(user)) {
+                //If the databse contains the user, update their points
+                database.update(user);
+            } else if (user.getPoints() == 0) {
+                //If the users points == 0 then add them to the database
+                database.add(user);
+            }
+        } else {
+            System.out.println("Received non-text message: " + message);
+        }
+    }
+    
+    /**
+     * Extract the user from the message text
+     * @param message the message that has been received
+     * @return the user that has been created
+     */
+    private UserEntity getUser(Message message) {
+        String text = null;
         try {
-            //Try to add the user
-            em.persist(user);
-        } catch (EntityExistsException e) {
-            //Try to update the users points
-            em.getTransaction().begin();
-            UserEntity dbuser = (UserEntity) em.find(UserEntity.class, user.getName());
-            dbuser.setPoints(user.getPoints());
-            em.getTransaction().commit();     
+            text = ((TextMessage)message).getText();
+        } catch (JMSException ex) {
+            return null;
         }
-    }
-    
-    public void sendMessageToTopic(UserEntity user) {
-        try (JMSContext context = connectionFactory.createContext();) {
-            System.out.println("Sending message: " + user); 
-            context.createProducer().send(topic, user);
-        }
-    }
-    
-    public List<UserEntity> getUsers() {
-        return em.createQuery("select u from User u", UserEntity.class).getResultList();
+        System.out.println("Received text message: " + text);
+        String[] data = text.split("\n");
+        if (data.length == 3) {
+            UserEntity user = new UserEntity(data[0], data[1]);
+            user.setPoints(Long.parseLong(data[2]));
+            return user;
+        } else {
+            return null;
+        }    
     }
 }

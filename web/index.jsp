@@ -19,7 +19,7 @@
             int status = 0;
             if (temp != null)
                 status = Integer.parseInt(temp);
-            String url = "/Assignment4Server/users";
+            String url = "/Assignment4Server/webresources/users";
             //out.print("<p>Output is ");
             switch(status) {
                 case 1 :    //out.print("1");
