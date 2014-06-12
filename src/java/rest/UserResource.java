@@ -2,7 +2,6 @@ package rest;
 
 import beans.UserBean;
 import entities.UserEntity;
-import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.ws.rs.Path;
@@ -27,17 +26,18 @@ public class UserResource
      * @return 
      */
     @GET
-    @Produces("text/plain")
+    @Produces("text/xml")
     public String getUsers() {  
         StringBuilder buffer = new StringBuilder();
-        List<UserEntity> userlist = users.getUsers();
-        if (users == null)
-            return "There are no users";
+        buffer.append("<users>");
         for (UserEntity user : users.getUsers()) {
-            buffer.append(user.getFirstName() + " ");
-            buffer.append(user.getLastName() + " has ");
-            buffer.append(user.getPoints() + " points\n");
+            buffer.append("<user>");
+            buffer.append("<firstname>" + user.getFirstName() + "</firstname>");
+            buffer.append("<lastname>" + user.getLastName() + "</lastname>");
+            buffer.append("<points>" + user.getPoints() + "</points>");
+            buffer.append("</user>");
         }
+        buffer.append("</users>");
         return buffer.toString();
     }
 
@@ -73,10 +73,9 @@ public class UserResource
     public String addUser(@PathParam("firstName") String firstName, @PathParam("lastName") String lastName) { 
         UserEntity user = users.addUser(firstName, lastName);
         if (user != null)
-            return firstName + " " + lastName + " has " + user.getPoints() + 
-                    " points";
+            return "User has been added";
         else
-            return "No such user";
+            return "User alresdy exists";
     }
     
     /**

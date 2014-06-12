@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <script src="javascript.js"></script>
+        <title>Switch2well</title>
+    </head>
+    <body onload="requestUsers()">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html"><b>Home</b></a></li>
+                <li><a href="newUser.html">Add User</a></li>
+            </ul>
+  	</div>
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Switch2well WEB</h1>
+            </div> 
+	</div> 
+	<div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Add New Contact</h2> <br>
+                    <div class="form-horizontal" id="form"> 
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">First Name</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text" maxlength="80" id="fname">
+                            </div>
+                        </div>
+                        <div class="form-group">  
+                            <label class="col-sm-2 control-label">Last Name</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" type="text" maxlength="80" id="lname">
+                            </div>
+                        </div>
+                        <div class="form-group button">	
+                            <div class="col-sm-offset-2 col-sm-9">
+                                <button class="btn btn-default" onclick="addUser()">Add New User</button> 
+                                <div id="response">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+  	</div>
+    </body>
+</html>

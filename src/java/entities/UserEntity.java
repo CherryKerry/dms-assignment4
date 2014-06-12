@@ -26,9 +26,19 @@ public class UserEntity{
         setLastName(lastName);
         points = 0;
     }
+    
+    private String proper(String word) {
+        if (word.length() > 1) {
+            String proper = word.substring(0, 1).toUpperCase();
+            proper += word.substring(1, word.length());
+            return proper;
+        } else {
+            return word;
+        }
+    }
 
     public String getFirstName() {
-        return firstName;
+        return proper(firstName);
     }
 
     public void setFirstName(String firstName) {
@@ -38,7 +48,7 @@ public class UserEntity{
     }
 
     public String getLastName() {
-        return lastName;
+        return proper(lastName);
     }
     
     public String getName() {
